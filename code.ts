@@ -1,33 +1,40 @@
-// This plugin will open a window to prompt the user to enter a number, and
-// it will then create that many rectangles on the screen.
+const WritingStatus = {
+  Todo: "todo",
+  InProgress: "inprogress",
+  ToReview: "toreview",
+  Done: "done",
+};
 
-// This file holds the main code for the plugins. It has access to the *document*.
-// You can access browser APIs in the <script> tag inside "ui.html" which has a
-// full browser environment (see documentation).
-
-// This shows the HTML page in "ui.html".
 figma.showUI(__html__);
+
+const changeName = (name, status = WritingStatus.Todo) =>
+  ({
+    [WritingStatus.Todo]: `🔴  ${name} - TO DO`,
+    [WritingStatus.InProgress]: `🟠   ${name} - IN PROGRESS`,
+    [WritingStatus.ToReview]: `🔵  ${name} - TO REVIEW`,
+    [WritingStatus.Done]: `✅  ${name} - DONE`,
+  }[status || WritingStatus.Todo]);
 
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
 // posted message.
-figma.ui.onmessage = msg => {
-  // One way of distinguishing between different types of messages sent from
-  // your HTML page is to use an object with a "type" property like this.
-  if (msg.type === 'create-rectangles') {
-    const nodes: SceneNode[] = [];
-    for (let i = 0; i < msg.count; i++) {
-      const rect = figma.createRectangle();
-      rect.x = i * 150;
-      rect.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
-      figma.currentPage.appendChild(rect);
-      nodes.push(rect);
-    }
-    figma.currentPage.selection = nodes;
-    figma.viewport.scrollAndZoomIntoView(nodes);
+figma.ui.onmessage = (msg) => {
+  const layers = figma.currentPage.selection;
+  const texts = layers.filter((layer) => layer.type === "TEXT");
+  if (texts.length === 0) {
+    figma.notify("Select at least one Text Layer", { timeout: 1500 });
+    return;
   }
-
-  // Make sure to close the plugin when you're done. Otherwise the plugin will
-  // keep running, which shows the cancel button at the bottom of the screen.
-  figma.closePlugin();
+  texts.forEach((text) => {
+    let original = text.getPluginData("original-name");
+    if (!original) {
+      text.setPluginData("original-name", text.name);
+      original = text.name;
+    }
+    text.setPluginData("status", msg.status);
+    text.name = changeName(original, msg.status);
+  });
+  figma.notify(`change ${texts.length} node statuses to ${msg.status}`, {
+    timeout: 1500,
+  });
 };

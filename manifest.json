@@ -2,9 +2,7 @@
   "name": "UXW status",
   "id": "1040572029385429666",
   "api": "1.0.0",
-  "main": "code.js",
-  "editorType": [
-    "figma"
-  ],
+  "main": "code.ts",
+  "editorType": ["figma"],
   "ui": "ui.html"
 }
