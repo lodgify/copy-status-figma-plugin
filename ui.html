@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="https://static.figma.com/api/figma-extension-api-0.0.1.css">
+<h2>UX writing status</h2>
+<button id="todo">To do</button>
+<button id="inprogress">In progress</button>
+<button id="toreview">To review</button>
+<button id="done">Done</button>
+
+<script>
+
+document.getElementById('todo').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'todo' } }, '*')
+}
+
+document.getElementById('inprogress').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'inprogress' } }, '*')
+}
+
+document.getElementById('toreview').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'toreview' } }, '*')
+}
+
+document.getElementById('done').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'done' } }, '*')
+}
+</script>
