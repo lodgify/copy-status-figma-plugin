@@ -5,14 +5,14 @@ const WritingStatus = {
   Done: "done",
 };
 
-figma.showUI(__html__);
+figma.showUI(__html__, {width: 300, height: 260})
 
 const changeName = (name, status = WritingStatus.Todo) =>
   ({
-    [WritingStatus.Todo]: `🔴  ${name} - TO DO`,
-    [WritingStatus.InProgress]: `🟠   ${name} - IN PROGRESS`,
-    [WritingStatus.ToReview]: `🔵  ${name} - TO REVIEW`,
-    [WritingStatus.Done]: `✅  ${name} - DONE`,
+    [WritingStatus.Todo]: `🔴  ${name} - [TO DO]`,
+    [WritingStatus.InProgress]: `🟠   ${name} - [IN PROGRESS]`,
+    [WritingStatus.ToReview]: `🔵  ${name} - [TO REVIEW]`,
+    [WritingStatus.Done]: `✅  ${name} - [DONE]`,
   }[status || WritingStatus.Todo]);
 
 // Calls to "parent.postMessage" from within the HTML page will trigger this
