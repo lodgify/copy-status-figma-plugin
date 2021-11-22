@@ -2,15 +2,23 @@
   rel="stylesheet"
   href="https://static.figma.com/api/figma-extension-api-0.0.1.css"
 />
+<style>
+   button { margin: 4px;}
+  .button-container {display:flex; align-items: center; flex-direction: column; justify-content: space-between; }
+  h2 { text-align: center;}
+  p { text-align: center;}
+</style>
+
 <h2>UX writing status</h2>
+<p>Select a text layer and apply a status.</p>
 <div class="button-container"></div>
 
 <script>
   const writingStatus = {
-    todo: "To Do",
-    inprogress: "In Progress",
-    toreview: "To Review",
-    done: "Done",
+    todo: "🔴 To Do",
+    inprogress: "🟠 In Progress",
+    toreview: "🔵 To Review",
+    done: "✅ Done",
   };
   const btns = document.querySelector(".button-container");
   Object.entries(writingStatus).forEach(([status, label]) => {
