@@ -1,25 +1,25 @@
-<link rel="stylesheet" href="https://static.figma.com/api/figma-extension-api-0.0.1.css">
+<link
+  rel="stylesheet"
+  href="https://static.figma.com/api/figma-extension-api-0.0.1.css"
+/>
 <h2>UX writing status</h2>
-<button id="todo">To do</button>
-<button id="inprogress">In progress</button>
-<button id="toreview">To review</button>
-<button id="done">Done</button>
+<div class="button-container"></div>
 
 <script>
-
-document.getElementById('todo').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'todo' } }, '*')
-}
-
-document.getElementById('inprogress').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'inprogress' } }, '*')
-}
-
-document.getElementById('toreview').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'toreview' } }, '*')
-}
-
-document.getElementById('done').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'done' } }, '*')
-}
+  const writingStatus = {
+    todo: "To Do",
+    inprogress: "In Progress",
+    toreview: "To Review",
+    done: "Done",
+  };
+  const btns = document.querySelector(".button-container");
+  Object.entries(writingStatus).forEach(([status, label]) => {
+    const button = document.createElement("button");
+    button.classList.add("status-button");
+    button.innerText = label;
+    button.addEventListener("click", () => {
+      parent.postMessage({ pluginMessage: { status } }, "*");
+    });
+    btns.appendChild(button);
+  });
 </script>
