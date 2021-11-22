@@ -15,9 +15,6 @@ const changeName = (name, status = WritingStatus.Todo) =>
     [WritingStatus.Done]: `✅  ${name} - [DONE]`,
   }[status || WritingStatus.Todo]);
 
-// Calls to "parent.postMessage" from within the HTML page will trigger this
-// callback. The callback will be passed the "pluginMessage" property of the
-// posted message.
 figma.ui.onmessage = (msg) => {
   const layers = figma.currentPage.selection;
   const texts = layers.filter((layer) => layer.type === "TEXT");
