@@ -4,5 +4,6 @@
   "api": "1.0.0",
   "main": "code.ts",
   "editorType": ["figma"],
-  "ui": "ui.html"
+  "ui": "ui.html",
+  "enablePrivatePluginApi": true
 }
